@@ -14,6 +14,7 @@ pipeline {
         stage('Acceptance') {
              steps {
                  echo "Acceptance stage"
+                 sh "./mvnw -B integration-test -Dbuild.number=${BUILD_NUMBER}"
             }
         }   
     }
