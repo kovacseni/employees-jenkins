@@ -1,6 +1,6 @@
 FROM eclipse-temurin:17 as builder
 WORKDIR /app
-COPY build/libs/*.jar employees.jar
+COPY target/*.jar employees.jar
 RUN java -Djarmode=layertools -jar employees.jar extract
 
 FROM eclipse-temurin:17
