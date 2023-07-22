@@ -41,21 +41,25 @@ pipeline {
 //                 sh "docker push kovacseni/employees:latest"
             }
         }
-        stage('E2E API') {
-            steps {
-                echo "E2E API tests stage"
-//                 dir('employees-postman') {
-//                     sh 'rm -rf reports'
-//                     sh 'mkdir reports'
-//                     sh 'docker compose -f docker-compose.yaml -f docker-compose.jenkins.yaml up --abort-on-container-exit'
-//                     archiveArtifacts artifacts: 'reports/*.html', fingerprint: true
-//                 }
-            }
-        }
-        stage('Code quality') {
-              steps {
-                  echo "E2E API tests stage"
-//                   sh "./mvnw sonar:sonar -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=${SONAR_CREDENTIALS_PSW}"
+        stage('Quality')) {
+            parallel {
+                stage('E2E API') {
+                    steps {
+                        echo "E2E API tests stage"
+        //                 dir('employees-postman') {
+        //                     sh 'rm -rf reports'
+        //                     sh 'mkdir reports'
+        //                     sh 'docker compose -f docker-compose.yaml -f docker-compose.jenkins.yaml up --abort-on-container-exit'
+        //                     archiveArtifacts artifacts: 'reports/*.html', fingerprint: true
+        //                 }
+                    }
+                }
+                stage('Code quality') {
+                      steps {
+                          echo "Code quality"
+        //                   sh "./mvnw sonar:sonar -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=${SONAR_CREDENTIALS_PSW}"
+                    }
+                }
             }
         }
     }
