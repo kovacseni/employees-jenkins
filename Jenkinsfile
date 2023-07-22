@@ -6,11 +6,11 @@ pipeline {
 //                                 returnStdout: true).trim()
 //             IMAGE_NAME = "kovacseni/employees:${VERSION_NUMBER}"
 //     }
-//     agent {
-//         docker {
-//             image 'eclipse-temurin:17'
-//         }
-//     }
+    agent {
+        docker {
+            image 'eclipse-temurin:17'
+        }
+    }
 //     agent {
 //         dockerfile {
 //             filename 'Dockerfile.build'
