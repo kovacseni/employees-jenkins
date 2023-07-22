@@ -1,22 +1,22 @@
 pipeline {
-//     environment {
-//             DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
-//             VERSION_NUMBER = sh (
-//                                 script: './mvnw help:evaluate -Dexpression=project.version -Dbuild.number=${BUILD_NUMBER} -q -DforceStdout',
-//                                 returnStdout: true).trim()
-//             IMAGE_NAME = "kovacseni/employees:${VERSION_NUMBER}"
-//     }
-    agent {
-        docker {
-            image 'eclipse-temurin:17'
-        }
+    environment {
+            DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
+            VERSION_NUMBER = sh (
+                                script: './mvnw help:evaluate -Dexpression=project.version -Dbuild.number=${BUILD_NUMBER} -q -DforceStdout',
+                                returnStdout: true).trim()
+            IMAGE_NAME = "kovacseni/employees:${VERSION_NUMBER}"
     }
 //     agent {
-//         dockerfile {
-//             filename 'Dockerfile.build'
-//             args '-e DOCKER_CONFIG=./docker'
+//         docker {
+//             image 'eclipse-temurin:17'
 //         }
 //     }
+    agent {
+        dockerfile {
+            filename 'Dockerfile.build'
+            args '-e DOCKER_CONFIG=./docker'
+        }
+    }
     stages {
         stage('Commit') {
             steps {
@@ -33,11 +33,11 @@ pipeline {
         stage('Docker') {
             steps {
                 echo "Build and push Docker image"
-//                 sh "docker build -f Dockerfile.layered -t ${IMAGE_NAME} ."
-//                 sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u=${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
-//                 sh "docker push ${IMAGE_NAME}"
-//                 sh "docker tag ${IMAGE_NAME} kovacseni/employees:latest"
-//                 sh "docker push kovacseni/employees:latest"
+                sh "docker build -f Dockerfile.layered -t ${IMAGE_NAME} ."
+                sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u=${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
+                sh "docker push ${IMAGE_NAME}"
+                sh "docker tag ${IMAGE_NAME} kovacseni/employees:latest"
+                sh "docker push kovacseni/employees:latest"
             }
         }
         stage('E2E API') {
