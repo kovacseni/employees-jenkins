@@ -41,7 +41,7 @@ pipeline {
 //                 sh "docker push kovacseni/employees:latest"
             }
         }
-        stage('Quality')) {
+        stage('Quality') {
             parallel {
                 stage('E2E API') {
                     steps {
