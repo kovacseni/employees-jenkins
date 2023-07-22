@@ -62,9 +62,9 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
-            steps {
-                echo "Deploy"
+//         stage('Deploy') {
+//             steps {
+//                 echo "Deploy"
 //             agent {
 //                 dockerfile {
 //                     filename 'Dockerfile.ansible'
@@ -79,10 +79,11 @@ pipeline {
 //                     sh "ansible-playbook docker-playbook.yaml -i inventory.yaml -e imageName=${IMAGE_NAME}"
 //                 }
 //             }
-            }
-        }
+//             }
+//         }
         stage('Deploy') {
              steps {
+                  echo "Deploy"
                   script {
                        def isDeployAllowed = input(message: 'Deploy?', parameters: [
                                [$class: 'ChoiceParameterDefinition', choices: "Yes\nNo", name: 'deploy'],
