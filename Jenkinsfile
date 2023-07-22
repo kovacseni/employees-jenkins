@@ -63,7 +63,8 @@ pipeline {
             }
         }
         stage('Deploy') {
-            echo "Deploy"
+            steps {
+                echo "Deploy"
 //             agent {
 //                 dockerfile {
 //                     filename 'Dockerfile.ansible'
@@ -78,6 +79,7 @@ pipeline {
 //                     sh "ansible-playbook docker-playbook.yaml -i inventory.yaml -e imageName=${IMAGE_NAME}"
 //                 }
 //             }
+            }
         }
     }
 }
