@@ -32,6 +32,7 @@ pipeline {
         }
         stage('Docker') {
             steps {
+                echo "Build and push Docker image"
                 sh "docker build -f Dockerfile.layered -t ${IMAGE_NAME} ."
                 sh "echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u=${DOCKERHUB_CREDENTIALS_USR} --password-stdin"
                 sh "docker push ${IMAGE_NAME}"
@@ -41,8 +42,12 @@ pipeline {
         }
         stage('E2E API') {
             steps {
+                echo "E2E API tests stage"
                 dir('employees-postman') {
+                    sh 'rm -rf reports'
+                    sh 'mkdir reports'
                     sh 'docker compose -f docker-compose.yaml -f docker-compose.jenkins.yaml up --abort-on-container-exit'
+                    archiveArtifacts artifacts: 'reports/*.html', fingerprint: true
                 }
             }
         }
