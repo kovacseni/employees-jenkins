@@ -62,5 +62,22 @@ pipeline {
                 }
             }
         }
+        stage('Deploy') {
+            echo "Deploy"
+//             agent {
+//                 dockerfile {
+//                     filename 'Dockerfile.ansible'
+//                 }
+//             }
+//             steps {
+//                 script {
+//                     env.DEFAULT_LOCAL_TMP = env.WORKSPACE_TMP
+//                     env.HOME = env.WORKSPACE
+//                 }
+//                 sshagent(credentials : ['aws-credentials']) {
+//                     sh "ansible-playbook docker-playbook.yaml -i inventory.yaml -e imageName=${IMAGE_NAME}"
+//                 }
+//             }
+        }
     }
 }
