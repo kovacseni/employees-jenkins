@@ -81,5 +81,19 @@ pipeline {
 //             }
             }
         }
+        stage('Deploy') {
+             steps {
+                  script {
+                       def isDeployAllowed = input(message: 'Deploy?', parameters: [
+                               [$class: 'ChoiceParameterDefinition', choices: "Yes\nNo", name: 'deploy'],
+                           ])
+                       print("${isDeployAllowed}")
+                       if (isDeployAllowed == 'No') {
+                           currentBuild.result = 'ABORTED'
+                           error('Manual stop.')
+                       }
+                  }
+             }
+        }
     }
 }
