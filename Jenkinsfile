@@ -47,10 +47,10 @@ pipeline {
                     steps {
                         echo "E2E API tests stage"
                         dir('employees-postman') {
-        //                     sh 'rm -rf reports'
-        //                     sh 'mkdir reports'
+                            sh 'rm -rf reports'
+                            sh 'mkdir reports'
                             sh 'docker compose -f docker-compose.yaml -f docker-compose.jenkins.yaml up --abort-on-container-exit'
-        //                     archiveArtifacts artifacts: 'reports/*.html', fingerprint: true
+                            archiveArtifacts artifacts: 'reports/*.html', fingerprint: true
                         }
                     }
                 }
