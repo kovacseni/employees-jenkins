@@ -5,7 +5,7 @@ pipeline {
                                 script: './mvnw help:evaluate -Dexpression=project.version -Dbuild.number=${BUILD_NUMBER} -q -DforceStdout',
                                 returnStdout: true).trim()
             IMAGE_NAME = "kovacseni/employees:${VERSION_NUMBER}"
-//             SONAR_CREDENTIALS = credentials('sonar-credentials')
+            SONAR_CREDENTIALS = credentials('sonar-credentials')
     }
 //     agent {
 //         docker {
@@ -57,7 +57,7 @@ pipeline {
                 stage('Code quality') {
                       steps {
                           echo "Code quality"
-        //                   sh "./mvnw sonar:sonar -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=${SONAR_CREDENTIALS_PSW}"
+                          sh "./mvnw sonar:sonar -Dsonar.host.url=http://host.docker.internal:9000 -Dsonar.login=${SONAR_CREDENTIALS_PSW}"
                     }
                 }
             }
